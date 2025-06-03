@@ -24,7 +24,6 @@ const kanjiToFile = {
   母: "mother",
 };
 
-// Stroke order instructions for each kanji
 const kanjiStrokeOrders = {
   人: [
     "Draw the left diagonal stroke from top to bottom.",
@@ -153,7 +152,6 @@ function TracingPage() {
   const canvasRef = useRef(null);
   const [feedback, setFeedback] = useState(null);
 
-  // Load and animate SVG strokes
   useEffect(() => {
     if (!svgPath) return;
 
@@ -173,11 +171,7 @@ function TracingPage() {
             path.style.fill = "none";
             path.style.strokeDasharray = length;
             path.style.strokeDashoffset = length;
-
-            // Add the animation class
             path.classList.add("draw-path");
-
-            // Set animation delay inline to stagger strokes
             path.style.animationDelay = `${i * 0.3}s`;
           });
         }
@@ -189,7 +183,6 @@ function TracingPage() {
       });
   }, [svgPath, kanji]);
 
-  // Canvas drawing logic
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
@@ -226,12 +219,10 @@ function TracingPage() {
       if (!drawing) return;
       drawing = false;
       ctx.closePath();
-      // Placeholder: simple feedback logic
       const isCorrect = Math.random() > 0.3;
       setFeedback(isCorrect ? "✅ Great job!" : "❌ Try again");
     };
 
-    // Attach events
     canvas.addEventListener("mousedown", startDrawing);
     canvas.addEventListener("mousemove", draw);
     canvas.addEventListener("mouseup", stopDrawing);
@@ -240,7 +231,6 @@ function TracingPage() {
     canvas.addEventListener("touchmove", draw, { passive: false });
     canvas.addEventListener("touchend", stopDrawing);
 
-    // Cleanup
     return () => {
       canvas.removeEventListener("mousedown", startDrawing);
       canvas.removeEventListener("mousemove", draw);
@@ -276,26 +266,19 @@ function TracingPage() {
           <strong>Meaning:</strong>{" "}
           {fileName ? fileName.charAt(0).toUpperCase() + fileName.slice(1) : "Unknown"}
         </p>
-        <p>
-          <strong>Stroke Order:</strong>
-        </p>
+        <p><strong>Stroke Order:</strong></p>
         <ol>
-          {(kanjiStrokeOrders[kanji] || ["Stroke order data not available"]).map(
-            (step, i) => (
-              <li key={i}>{step}</li>
-            )
-          )}
+          {(kanjiStrokeOrders[kanji] || ["Stroke order data not available"]).map((step, i) => (
+            <li key={i}>{step}</li>
+          ))}
         </ol>
-        <p>
-          <strong>Tips:</strong> Start strokes from top to bottom, left to right.
-        </p>
-
+        <p><strong>Tips:</strong> Start strokes from top to bottom, left to right.</p>
         <Link to="/" style={{ textDecoration: "underline", color: "blue" }}>
           ← Back to Chart
         </Link>
       </div>
 
-      {/* Kanji + canvas */}
+      {/* SVG and Canvas overlay */}
       <div style={{ flex: "1 1 320px", textAlign: "center" }}>
         <div
           style={{
@@ -349,6 +332,7 @@ function TracingPage() {
         </div>
       </div>
 
+      {/* Inline styles for stroke animation */}
       <style>{`
         @keyframes draw {
           to {
