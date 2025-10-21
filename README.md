@@ -3,4 +3,7 @@
 
 Deployed=
  https://kanji-chart-react.vercel.app/
- 
+
+ Partnered=
+ Diana Saging
+ Magdelina James
